@@ -1,0 +1,260 @@
+
+package javaapplication6;
+import java.util.*;
+import java.sql.*;
+class customer
+{Scanner s=new Scanner(System.in);
+    public void new_account()
+    {
+       int account_id,account_amount;
+                        String account_name,account_sex,account_ms,account_contact,account_email,account_address,account_pan;
+                        System.out.println("Enter Account Number");
+                         account_id=s.nextInt();
+                         System.out.println("Enter Name");
+                         account_name=s.next();
+                         System.out.println("Sex");
+                         account_sex=s.next();
+                         System.out.println("Marital Status");
+                          account_ms=s.next();
+                          System.out.println("Email address");
+                          account_email=s.next();
+                          System.out.println("Contact Number");
+                          account_contact=s.next();
+                           System.out.println(" Address");
+                          account_address=s.next();
+                          System.out.println("PAN Number"); 
+                          account_pan=s.next();
+                            System.out.println("Ammount");
+                           account_amount=s.nextInt();
+                    try{
+                         Class.forName("com.mysql.jdbc.Driver");
+                          Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","shivam");
+                                  Statement sd=cn.createStatement();
+                              sd.executeUpdate("insert into account values('"+account_id+"','"+account_name+"','"+account_sex+"','"+account_ms+"','"+account_email+"','"+account_contact+"','"+account_address+"','"+account_pan+"','"+account_amount+"')");
+                             System.out.println("Account Created SuccessFully");
+                             cn.close();
+                    }   
+                    
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    } 
+    }
+         public void update()
+         {
+            int account_id,account_amount;
+                        String account_name,account_sex,account_ms,account_contact,account_email,account_address,account_pan;
+                        System.out.println("Enter Account Number whose details has to Updated");
+                         account_id=s.nextInt();
+                         System.out.println("Enter updated Name");
+                         account_name=s.next();
+                         System.out.println("Sex");
+                         account_sex=s.next();
+                         System.out.println("Updated Marital Status");
+                          account_ms=s.next();
+                          System.out.println("Updated Email address");
+                          account_email=s.next();
+                          System.out.println("Updated Contact Number");
+                          account_contact=s.next();
+                           System.out.println("Updated Address");
+                          account_address=s.next();
+                          System.out.println("Updated PAN Number"); 
+                          account_pan=s.next();
+                            System.out.println("Updated Ammount");
+                           account_amount=s.nextInt();
+                    try{
+                         Class.forName("com.mysql.jdbc.Driver");
+                          Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","shivam");
+                                  Statement sd=cn.createStatement();
+                              sd.executeUpdate("update account set acc_name='"+account_name+"',acc_sex='"+account_sex+"',acc_ms='"+account_ms+"',acc_email='"+account_email+"',acc_contact='"+account_contact+"',acc_address='"+account_address+"',acc_pan='"+account_pan+"',acc_amount='"+account_amount+"' where acc_number='"+account_id+"'");
+                             System.out.println("Account Updated SuccessFully");
+                       cn.close();
+                    }   
+                    
+                    
+                    
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }       
+         }
+         public void deposit()
+         {
+             int num,account_id;
+             System.out.println("Enter the account number");
+             account_id=s.nextInt();
+             System.out.println("Enter the amount Deposited");
+             num=s.nextInt();
+             try{
+                         Class.forName("com.mysql.jdbc.Driver");
+                          Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","shivam");
+                                  Statement sd=cn.createStatement();
+                              sd.executeUpdate("update account set acc_amount=acc_amount + '"+num+"' where acc_number='"+account_id+"'");
+                             System.out.println("Amount Deposited SuccessFully");
+                              ResultSet rs=sd.executeQuery("select acc_number,acc_name,acc_amount from account where acc_number='"+account_id+"'");
+                                  while(rs.next())
+                                  {
+                                      System.out.println("Account Number\t"+rs.getInt("acc_number"));
+                                      System.out.println("Account Holder's Name\t"+rs.getString("acc_name"));
+                                      System.out.println("updated Amount\t"+rs.getInt("acc_amount"));
+                                  }
+                    
+                     cn.close();
+             }   
+                    
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }      
+            
+                           
+             
+         }
+         public void withdrwal()
+         {
+              int num,account_id;
+             System.out.println("Enter the account number");
+             account_id=s.nextInt();
+             System.out.println("Enter the amount Withdrawl");
+             num=s.nextInt();
+             try{
+                         Class.forName("com.mysql.jdbc.Driver");
+                          Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","shivam");
+                                  Statement sd=cn.createStatement();
+                              sd.executeUpdate("update account set acc_amount=acc_amount -'"+num+"' where acc_number='"+account_id+"'");
+                             System.out.println("Amount withdrawled SuccessFully");
+                              ResultSet rs=sd.executeQuery("select acc_number,acc_name,acc_amount from account where acc_number='"+account_id+"'");
+                                  while(rs.next())
+                                  {
+                                      System.out.println("Account Number\t"+rs.getInt("acc_number"));
+                                      System.out.println("Account Holder's Name\t"+rs.getString("acc_name"));
+                                      System.out.println("updated Amount\t"+rs.getInt("acc_amount"));
+                                  }
+                      cn.close();       
+             }   
+                    
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }   
+         }
+         public void enquiry()
+         {
+              int account_id;
+             System.out.println("Enter the account number");
+             account_id=s.nextInt();
+             try{
+                         Class.forName("com.mysql.jdbc.Driver");
+                          Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","shivam");
+                                  Statement sd=cn.createStatement();
+                                  ResultSet rs=sd.executeQuery("select acc_number,acc_name,acc_amount from account where acc_number='"+account_id+"'");
+                                  while(rs.next())
+                                  {
+                                      System.out.println("Account Number\t"+rs.getInt("acc_number"));
+                                      System.out.println("Account Holder's Name\t"+rs.getString("acc_name"));
+                                      System.out.println("Amount\t"+rs.getInt("acc_amount"));
+                                  }
+                                  cn.close();
+                   }   
+                    
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }                  
+         }
+         public void show()
+         {
+             try{
+                         Class.forName("com.mysql.jdbc.Driver");
+                          Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","shivam");
+                                  Statement sd=cn.createStatement();
+                                  ResultSet rs=sd.executeQuery("select* from account ");
+                                  while(rs.next())
+                                  {
+                                      System.out.println("Account Number\t"+rs.getInt("acc_number"));
+                                      System.out.println("Account Holder's Name\t"+rs.getString("acc_name"));
+                                      System.out.println("Sex\t"+rs.getString("acc_sex"));
+                                      System.out.println("Marital Status\t"+rs.getString("acc_ms"));
+                                      System.out.println("Email Address\t"+rs.getString("acc_email"));
+                                      System.out.println("Contact Number\t"+rs.getString("acc_contact"));
+                                      System.out.println("Address \t"+rs.getString("acc_address"));
+                                      System.out.println("PAN\t"+rs.getString("acc_pan"));
+                                      System.out.println("Amount\t"+rs.getInt("acc_amount"));
+                                  }
+                                  cn.close();
+                   }   
+                    
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }       
+         }
+         public void delete()
+         {
+             int account_id;
+             System.out.println("Enter the account number");
+             account_id=s.nextInt();
+             try{
+                         Class.forName("com.mysql.jdbc.Driver");
+                          Connection cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/bank","root","shivam");
+                                  Statement sd=cn.createStatement();
+                              sd.executeUpdate("delete from account where acc_number='"+account_id+"'");
+                             System.out.println("Account Deleted Successfully");
+                             cn.close();
+         }
+               catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }  
+          }
+}
+
+public class banking {
+
+   
+    public static void main(String[] args) 
+    {int choice ;
+    Scanner p=new Scanner(System.in);
+    do{  System.out.println("1- Create a New Account");
+       System.out.println("2- Update the Account Details");
+        System.out.println("3- CAsh Deposit");
+         System.out.println("4- Cash Withdrawl ");
+          System.out.println("5- Balance Enquiry");
+           System.out.println("6- Show All Accounts");
+           System.out.println("7- Delete a Account");
+            System.out.println("8-Exit");
+            choice=p.nextInt();
+            customer cs=new customer();
+            switch(choice)
+            {
+                case 1:cs.new_account();
+                        break;
+                        
+                        
+                case 2: cs.update();
+                         break;
+                case 3: cs.deposit();
+                         break;
+                case 4: cs.withdrwal();
+                         break;
+                case 5 : cs.enquiry();
+                         break;
+                case 6 : cs.show();
+                         break;
+                case 7 : cs.delete();
+                         break;
+                case 8: System.out.println("  ");
+                         break;
+                default: System.out.println("you have entered a wrong choice  ");
+                    
+                    
+                    
+                    
+                    
+            }
+            
+           
+    }while(choice!=8);
+    }
+    
+}
